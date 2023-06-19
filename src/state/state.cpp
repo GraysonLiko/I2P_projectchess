@@ -222,7 +222,6 @@ void State::get_legal_actions(){
       }
     }
   }
-  std::cout << "\n";
   this->legal_actions = all_actions;
 }
 
