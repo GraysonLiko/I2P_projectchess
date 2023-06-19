@@ -3,8 +3,8 @@
 
 #include "../config.hpp"
 #include "../state/state.hpp"
-#include "../policy/random.hpp"
-int ct;
+#include "../policy/myAI.hpp"
+
 
 State* root;
 
@@ -38,11 +38,12 @@ void read_board(std::ifstream& fin) {
  * 
  * @param fout 
  */
+int con;
 void write_valid_spot(std::ofstream& fout) {
   // Keep updating the output until getting killed.
   while(true) {
     // Choose a random spot.
-    auto move = Random::get_move(root, 0);
+    auto move = myAI::get_move(root, 6);
     fout << move.first.first << " " << move.first.second << " "\
          << move.second.first << " " << move.second.second << std::endl;
     
