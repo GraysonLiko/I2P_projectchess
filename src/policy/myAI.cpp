@@ -24,7 +24,7 @@ Move myAI::get_move(State *state, int depth){
 
   for (auto action : actions) {
     State* nextState = state->next_state(action);
-    int value = minimax(nextState, depth-1, alpha, beta, state->player);
+    int value = minimax(nextState, depth-1, state->player);
 
     if (state->player==0&&value > bestValue) {
       bestValue = value;
@@ -39,4 +39,56 @@ Move myAI::get_move(State *state, int depth){
   }
 
   return bestMove;
+}
+
+int myAI::minimax(State *state, int depth, bool maximizing){
+  if(depth==0){
+    return state->evaluate();
+  }
+  
+  if(maximizing==true){
+    long long int value = -1000000;
+    if(!state->legal_actions.size())
+    state->get_legal_actions();
+
+    if(state->legal_actions.size()==0){
+      return state->evaluate();
+    }
+
+    for(auto itr:state->legal_actions){
+      State* states= state->next_state(itr);
+      value = maxim(value, minimax(states, depth-1, false));
+    }
+    return value;
+  }
+
+  else if(maximizing==false){
+      long long int value = 1000000;
+      if(!state->legal_actions.size())
+      state->get_legal_actions();
+
+      if(state->legal_actions.size()==0){
+      return state->evaluate();
+      }
+
+      for(auto itr:state->legal_actions){
+        State* states = state->next_state(itr);
+        value = minim(value, minimax(states, depth-1, true));
+      }
+      return value;
+  }
+}
+
+int myAI::maxim(int val, int minimax){
+  if(val>minimax){
+    return val;
+  }
+  else return minimax;
+}
+
+int myAI::minim(int val, int minimax){
+  if(val<minimax){
+    return val;
+  }
+  else return minimax;
 }
