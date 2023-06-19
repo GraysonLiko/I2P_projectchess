@@ -11,6 +11,161 @@
  * 
  * @return int 
  */
+/*
+(I can't pass baseline2 with this algorithm)
+
+ int State::evaluate(){
+    int white_material = 0;
+    int black_material = 0;
+    int white_king_pts = 0;
+    int black_king_pts = 0;
+    int white_pawn_pts = 0;
+    int black_pawn_pts = 0;
+
+    int piece;
+
+    static const int material_table[7] = {0, 2, 6, 7, 8, 20, 100};
+    
+    for(size_t i=0; i<BOARD_H; i+=1){
+      for(size_t j=0; j<BOARD_W; j+=1){
+        if((piece=this->board.board[0][i][j])){
+          white_material += material_table[piece];
+          white_pawn_pts += evaluatePawn(piece, i, j, 0);
+        }
+        if((piece=this->board.board[1][i][j])){
+          black_material += material_table[piece];
+          black_pawn_pts += evaluatePawn(piece, i, j, 1);
+        }
+      }
+    }
+    
+    white_king_pts = evaluateKingSafety(0);
+    black_king_pts = evaluateKingSafety(1);
+
+    int white_total = white_material + white_king_pts + white_pawn_pts;
+    int black_total = black_material + black_king_pts + black_pawn_pts;
+    // [TODO] design your own evaluation function
+    return white_total - black_total;
+  }
+
+  int State::evaluatePawn(int piece, int row, int col, int player){
+    int pawnStructureScore = 0;
+
+    if (player == 0) {  // White player
+      if (row > 0 && this->board.board[player][row - 1][col] == 1)
+        pawnStructureScore += 10;
+      if (row < BOARD_H - 1 && this->board.board[player][row + 1][col] == 1)
+        pawnStructureScore += 10;
+    } else {  // Black player
+      if (row > 0 && this->board.board[player][row - 1][col] == 1)
+        pawnStructureScore -= 10;
+      if (row < BOARD_H - 1 && this->board.board[player][row + 1][col] == 1)
+        pawnStructureScore -= 10;
+    }
+
+    if (player == 0) {  // White player
+      if ((col > 0 && this->board.board[player][row][col - 1] != 1) ||
+          (col < BOARD_W - 1 && this->board.board[player][row][col + 1] != 1))
+        pawnStructureScore -= 20;
+    } else {  // Black player
+      if ((col > 0 && this->board.board[player][row][col - 1] != 1) ||
+          (col < BOARD_W - 1 && this->board.board[player][row][col + 1] != 1))
+        pawnStructureScore += 20;
+    }
+
+    return pawnStructureScore;
+  }
+
+  int State::evaluateKingSafety(int player) {
+    int kingSafetyScore = 0;
+
+    int kingRow = player == 0 ? BOARD_H - 1 : 0;
+    for (int col = 0; col < BOARD_W; col++) {
+      if (this->board.board[player][kingRow][col] == 1)
+        kingSafetyScore += 5;
+    }
+
+    int opponent = player == 0 ? 1 : 0;
+    int kingCol = -1;
+    for (int row = 0; row < BOARD_H; row++) {
+      for (int col = 0; col < BOARD_W; col++) {
+        if (this->board.board[opponent][row][col] != 0) {
+          if (KingThreat(row, col, kingRow, kingCol)) {
+            kingSafetyScore -= 10;
+            break;
+          }
+        }
+      }
+    }
+
+    for (int row = 0; row < BOARD_H; row++) {
+      for (int col = 0; col < BOARD_W; col++) {
+        if (this->board.board[opponent][row][col] != 0) {
+          int distance = abs(row - kingRow) + abs(col - kingCol);
+          if (distance <= 2)
+            kingSafetyScore -= 3;
+        }
+      }
+    }
+
+    int ownPlayer = player == 0 ? 0 : 1;
+    for (int row = 0; row < BOARD_H; row++) {
+      for (int col = 0; col < BOARD_W; col++) {
+        if (this->board.board[ownPlayer][row][col] != 0) {
+          int distance = abs(row - kingRow) + abs(col - kingCol);
+          if (distance <= 3)
+            kingSafetyScore += 2;
+        }
+      }
+    }
+
+    return kingSafetyScore;
+  }
+
+  bool State::KingThreat(int player, int kingRow, int kingCol, int kingLayer) {
+  int opponent = (player == 0) ? 1 : 0;
+
+  for (int row = 0; row < BOARD_H; row++) {
+    for (int col = 0; col < BOARD_W; col++) {
+      
+      if (this->board.board[opponent][row][col]!= 0) {
+        if (isPieceAttacking(row, col, kingRow, kingCol)) {
+          return true;
+        }
+      }
+
+    }
+  }
+
+  return false;
+}
+
+bool State::isPieceAttacking(int pieceRow, int pieceCol, int kingRow, int kingCol) {
+  // Check if the piece at (pieceRow, pieceCol) is attacking the king at (kingRow, kingCol)
+  
+  int dRow = kingRow - pieceRow;
+  int dCol = kingCol - pieceCol;
+
+  if (dRow == 0 || dCol == 0)
+    return true;
+
+  if (abs(dRow) == abs(dCol))
+    return true;
+
+  if ((abs(dRow) == 2 && abs(dCol) == 1) || (abs(dRow) == 1 && abs(dCol) == 2))
+    return true;
+
+  int opponent = (pieceRow < kingRow) ? 1 : 0;
+  int pawnDirection = (opponent == 0) ? 1 : -1;
+  if (abs(dRow) == 1 && abs(dCol) == 1) {
+    if (this->board.board[opponent][kingRow][kingCol] == 1 && dRow == pawnDirection)
+      return true;
+  }
+
+  return false;
+}
+*/
+
 int State::evaluate(){
    int white_material = 0;
     int black_material = 0;
