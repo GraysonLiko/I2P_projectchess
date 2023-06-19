@@ -24,7 +24,7 @@ Move myAI::get_move(State *state, int depth){
 
   for (auto action : actions) {
     State* nextState = state->next_state(action);
-    int value = minimax(nextState, depth-1, state->player);
+    int value = minimax(nextState, depth-1, alpha, beta, state->player);
 
     if (state->player==0&&value > bestValue) {
       bestValue = value;
@@ -41,7 +41,7 @@ Move myAI::get_move(State *state, int depth){
   return bestMove;
 }
 
-int myAI::minimax(State *state, int depth, bool maximizing){
+int myAI::minimax(State *state, int depth, int alpha, int beta, bool maximizing){
   if(depth==0){
     return state->evaluate();
   }
@@ -57,7 +57,9 @@ int myAI::minimax(State *state, int depth, bool maximizing){
 
     for(auto itr:state->legal_actions){
       State* states= state->next_state(itr);
-      value = maxim(value, minimax(states, depth-1, false));
+      value = maxim(value, minimax(states, depth-1, alpha, beta, false));
+      alpha = maxim(alpha, value);
+      if(alpha>=beta) break;
     }
     return value;
   }
@@ -73,7 +75,9 @@ int myAI::minimax(State *state, int depth, bool maximizing){
 
       for(auto itr:state->legal_actions){
         State* states = state->next_state(itr);
-        value = minim(value, minimax(states, depth-1, true));
+        value = minim(value, minimax(states, depth-1, alpha, beta, true));
+        beta = minim(beta, value);
+        if(beta<=alpha) break;
       }
       return value;
   }
