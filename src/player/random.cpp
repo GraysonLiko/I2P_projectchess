@@ -4,7 +4,6 @@
 #include "../config.hpp"
 #include "../state/state.hpp"
 #include "../policy/random.hpp"
-int ct;
 
 State* root;
 
