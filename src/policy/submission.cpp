@@ -1,7 +1,7 @@
 #include <cstdlib>
 
 #include "../state/state.hpp"
-#include "./myAI.hpp"
+#include "./submission.hpp"
 
 
 /**
